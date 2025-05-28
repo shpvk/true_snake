@@ -5,10 +5,14 @@
 #include "snake.h"
 #include "cursor.h"
 #include "spawn_food.h"
+#include "check_win.h"
+
+
 int main()
 {
     srand(time(0));
     char choice;
+
     do
     {
         char board[ROWS][COLS];
@@ -18,6 +22,7 @@ int main()
         int direction_y = 0;
         int last_dx = 1, last_dy = 0;
         bool is_dead = false;
+        int score = 0;
 
         int food_x, food_y;
         spawn_food(food_x, food_y, body, snake_length);
@@ -43,17 +48,20 @@ int main()
                 is_dead = true;
                 break;
             }
+
             if (body[0].x == food_x && body[0].y == food_y)
             {
-                if (snake_length < 100) 
-                {
-                  ++snake_length;
-                  spawn_food(food_x, food_y, body, snake_length);
-                } else {
-                        std::cout << "You win! Maximum length reached.\n";
-                        break;
-                    }
+                ++score;
+
+                if (snake_length < 100)
+                    ++snake_length;
+
+                if (check_win(score, 20)) {
+                    break;
                 }
+
+                spawn_food(food_x, food_y, body, snake_length);
+            }
 
             initialize_board(board);
             draw_snake_on_board(body, snake_length, board, is_dead);
@@ -61,6 +69,7 @@ int main()
 
             reset_cursor();
             print_board(board);
+            std::cout << "Score: " << score << "\n";
 
             last_dx = direction_x;
             last_dy = direction_y;
@@ -68,12 +77,15 @@ int main()
             Sleep(100);
         }
 
-        std::cout << "YOU LOST\n";
+        if (is_dead)
+            std::cout << "YOU LOST\n";
+
         std::cout << "Do you want to play again? (N to exit, anything else to retry): ";
         std::cin >> choice;
         system("cls");
         choice = toupper(choice);
 
     } while (choice != 'N');
+
     return 0;
 }
