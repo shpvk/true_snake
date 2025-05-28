@@ -24,3 +24,12 @@ bool is_bump_with_wall(snake body[], bool &is_dead)
   }
   return is_dead;
 }
+
+
+bool is_bump_with_self(snake body[], int length) {
+    for (int i = 1; i < length; ++i) {
+        if (body[0].x == body[i].x && body[0].y == body[i].y)
+            return true;
+    }
+    return false;
+}

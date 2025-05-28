@@ -2,12 +2,18 @@
 #include "constants.h"
 #include "direction.h"
 
-
-
-void update_direction(int& direction_x, int& direction_y)
+void update_direction(int& dx, int& dy, int last_dx, int last_dy)
 {
-  if (GetAsyncKeyState(VK_UP)) { direction_x = 0; direction_y = -1; }
-  else if (GetAsyncKeyState(VK_DOWN)) { direction_x = 0; direction_y = 1; }
-  else if (GetAsyncKeyState(VK_LEFT)) { direction_x = -1; direction_y = 0; }
-  else if (GetAsyncKeyState(VK_RIGHT)) { direction_x = 1; direction_y = 0; }
+    if (GetAsyncKeyState(VK_UP) && !(last_dx == 0 && last_dy == 1)) {
+        dx = 0; dy = -1;
+    }
+    else if (GetAsyncKeyState(VK_DOWN) && !(last_dx == 0 && last_dy == -1)) {
+        dx = 0; dy = 1;
+    }
+    else if (GetAsyncKeyState(VK_LEFT) && !(last_dx == 1 && last_dy == 0)) {
+        dx = -1; dy = 0;
+    }
+    else if (GetAsyncKeyState(VK_RIGHT) && !(last_dx == -1 && last_dy == 0)) {
+        dx = 1; dy = 0;
+    }
 }

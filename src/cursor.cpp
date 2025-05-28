@@ -1,5 +1,6 @@
 #include "includes.h"
 
+
 void reset_cursor()
 {
   COORD coord = { 0, 0 }; 

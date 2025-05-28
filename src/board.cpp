@@ -1,43 +1,41 @@
 #include "includes.h"
 #include "board.h"
 
-
-void initialize_board(char board[COLS][ROWS]) {
-  for (int i = 0; i < COLS; ++i) {
-    for (int j = 0; j < ROWS; ++j) {
-      if (i == 0 || i == ROWS - 1 || j == 0 || j == COLS - 1)
-        board[i][j] = '|';
+void initialize_board(char board[ROWS][COLS]) {
+  for (int y = 0; y < ROWS; ++y) {
+    for (int x = 0; x < COLS; ++x) {
+      if (y == 0 || y == ROWS - 1 || x == 0 || x == COLS - 1)
+        board[y][x] = '|';
       else
-        board[i][j] = ' ';
+        board[y][x] = ' ';
     }
   }
 }
 
-void draw_snake_on_board(snake body[], int length, char board[COLS][ROWS], bool &is_dead) {
+void draw_snake_on_board(snake body[], int length, char board[ROWS][COLS], bool &is_dead) {
   for (int i = 0; i < length; ++i) {
-    if (i == 0)
-      board[body[i].y][body[i].x] = '0';
-    else
-      board[body[i].y][body[i].x] = 'o';
+    if (body[i].y >= 0 && body[i].y < ROWS &&
+        body[i].x >= 0 && body[i].x < COLS) {
+      board[body[i].y][body[i].x] = (i == 0 ? '0' : 'o');
+    }
   }
 }
 
-void print_board(char board[COLS][ROWS])
+void print_board(char board[ROWS][COLS])
 {
   const int BUFFER_SIZE = (COLS + 1) * ROWS + 1;
   char buffer[BUFFER_SIZE];
   int index = 0;
 
-  for (int i = 0; i < ROWS; ++i)
+  for (int y = 0; y < ROWS; ++y)
   {
-    for (int j = 0; j < COLS; ++j)
+    for (int x = 0; x < COLS; ++x)
     {
-      buffer[index++] = board[i][j];
+      buffer[index++] = board[y][x];
     }
     buffer[index++] = '\n';
   }
 
   buffer[index] = '\0';
-
   std::cout << buffer;
 }
