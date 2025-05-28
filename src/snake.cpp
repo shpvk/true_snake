@@ -1,5 +1,5 @@
 #include "constants.h"
-#include <snake.h>
+#include "snake.h"
 
 void initialize_snake(snake body[], int length)
 {
@@ -13,7 +13,7 @@ void initialize_snake(snake body[], int length)
   }
 }
 
-bool is_bump_with_wall(snake body[], bool is_dead)
+bool is_bump_with_wall(snake body[], bool &is_dead)
 {
 
   if (body[0].x <= 0 || body[0].x >= COLS - 1 ||
